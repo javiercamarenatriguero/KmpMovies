@@ -19,21 +19,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
-import com.akole.kmp.movies.fake.movies
+import com.akole.kmp.movies.model.Movie
 import com.akole.kmp.movies.theme.dimens.LocalAppDimens
 import com.akole.kmp.movies.ui.screens.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen() {
-    val movie = movies[0]
+fun DetailScreen(
+    movie: Movie,
+    onBack: () -> Unit,
+) {
     Screen {
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = { Text(movie.title) },
                     navigationIcon = {
-                        IconButton(onClick = { /* Handle back navigation */ }) {
+                        IconButton(onClick = { onBack() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null

@@ -5,6 +5,7 @@ import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import coil3.request.crossfade
 import coil3.util.DebugLogger
+import com.akole.kmp.movies.ui.screens.Navigation
 import com.akole.kmp.movies.ui.screens.detail.DetailScreen
 import com.akole.kmp.movies.ui.screens.home.HomeScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -20,5 +21,5 @@ fun MoviesApp() {
             .build()
     }
 
-    DetailScreen()
+    Navigation()
 }

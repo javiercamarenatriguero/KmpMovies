@@ -1,6 +1,7 @@
 package com.akole.kmp.movies.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,9 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onMovieClick: (Movie) -> Unit,
+) {
     Screen {
         // Following Material3 guidelines, change the color when scrolling
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -57,7 +60,10 @@ fun HomeScreen() {
                 modifier = Modifier.padding(padding)
             ) {
                 items(movies, key = { it.id }) { movie ->
-                    MovieCard(movie = movie)
+                    MovieCard(
+                        movie = movie,
+                        onClick = { onMovieClick(movie) },
+                    )
                 }
             }
         }
@@ -65,8 +71,13 @@ fun HomeScreen() {
 }
 
 @Composable
-private fun MovieCard(movie: Movie) {
-    Column {
+private fun MovieCard(
+    movie: Movie,
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.clickable { onClick() },
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
