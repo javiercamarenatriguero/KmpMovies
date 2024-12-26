@@ -1,4 +1,4 @@
-package com.akole.kmp.movies.ui.screens
+package com.akole.kmp.movies.ui.screens.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
