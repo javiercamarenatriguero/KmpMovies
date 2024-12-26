@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
-import com.akole.kmp.movies.model.Movie
+import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.theme.dimens.LocalAppDimens
 import com.akole.kmp.movies.ui.screens.Screen
 

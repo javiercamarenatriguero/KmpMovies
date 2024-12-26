@@ -1,4 +1,4 @@
-package com.akole.kmp.movies.model
+package com.akole.kmp.movies.domain.model
 
 data class Movie (
     val id: Int,
