@@ -28,8 +28,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import com.akole.kmp.movies.fake.movies
-import com.akole.kmp.movies.model.Movie
+import com.akole.kmp.movies.data.fake.movies
+import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.theme.dimens.LocalAppDimens
 import com.akole.kmp.movies.ui.screens.Screen
 import kmpmovies.composeapp.generated.resources.Res
@@ -40,7 +40,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
-    viewModel: HomeViewModel = viewModel { HomeViewModel() },
+    viewModel: HomeViewModel,
 ) {
     Screen {
         // Following Material3 guidelines, change the color when scrolling

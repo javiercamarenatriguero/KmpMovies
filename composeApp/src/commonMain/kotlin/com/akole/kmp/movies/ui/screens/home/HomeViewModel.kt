@@ -5,21 +5,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.akole.kmp.movies.fake.movies
-import com.akole.kmp.movies.model.Movie
-import kotlinx.coroutines.delay
+import com.akole.kmp.movies.data.service.MoviesService
+import com.akole.kmp.movies.data.fake.dto.toDomainModel
+import com.akole.kmp.movies.domain.model.Movie
+import com.akole.kmp.movies.domain.repository.MoviesRepository
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val moviesRepository: MoviesRepository,
+) : ViewModel() {
     var state by mutableStateOf(UiState())
     private set
     init {
         viewModelScope.launch {
             state = UiState(loading = true)
-            delay(1000)
+            val movieList = moviesRepository.fetchPopularMovies()
             state = UiState(
                 loading = false,
-                movies = movies
+                movies = movieList,
             )
         }
     }
