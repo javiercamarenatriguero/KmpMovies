@@ -4,4 +4,6 @@ import com.akole.kmp.movies.domain.model.Movie
 
 interface MoviesRepository {
     suspend fun fetchPopularMovies(): List<Movie>
+
+    suspend fun fetchMovieById(id: Int): Movie
 }

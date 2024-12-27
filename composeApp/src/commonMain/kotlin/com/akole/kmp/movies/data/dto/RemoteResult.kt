@@ -1,4 +1,4 @@
-package com.akole.kmp.movies.data.fake.dto
+package com.akole.kmp.movies.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

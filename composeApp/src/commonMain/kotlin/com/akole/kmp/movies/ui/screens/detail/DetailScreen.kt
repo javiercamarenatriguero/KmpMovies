@@ -19,21 +19,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
-import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.theme.dimens.LocalAppDimens
+import com.akole.kmp.movies.ui.common.LoadingIndicator
 import com.akole.kmp.movies.ui.screens.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    movie: Movie,
+    viewModel: DetailViewModel,
     onBack: () -> Unit,
 ) {
+    val state = viewModel.state
     Screen {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(movie.title) },
+                    title = { Text(state.movie?.title.orEmpty()) },
                     navigationIcon = {
                         IconButton(onClick = { onBack() }) {
                             Icon(
@@ -46,26 +47,28 @@ fun DetailScreen(
             }
         )
         { padding ->
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                AsyncImage(
-                    model = movie.poster,
-                    contentDescription = movie.title,
-                    contentScale = ContentScale.Crop,
+            LoadingIndicator(enabled = state.loading)
+            state.movie?.let { movie ->
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(ASPECT_RADIO),
-                )
-                Text(
-                    text = movie.title,
-                    modifier = Modifier.padding(LocalAppDimens.current.screenSpacing),
-                    style = MaterialTheme.typography.headlineMedium,
-                )
+                        .padding(padding)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    AsyncImage(
+                        model = movie.poster,
+                        contentDescription = movie.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(ASPECT_RADIO),
+                    )
+                    Text(
+                        text = movie.title,
+                        modifier = Modifier.padding(LocalAppDimens.current.screenSpacing),
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
+                }
             }
-
         }
     }
 }
