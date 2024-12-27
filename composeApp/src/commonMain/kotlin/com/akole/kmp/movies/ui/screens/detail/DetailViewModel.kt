@@ -1,4 +1,4 @@
-package com.akole.kmp.movies.ui.screens.home
+package com.akole.kmp.movies.ui.screens.detail
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,24 +9,26 @@ import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.domain.repository.MoviesRepository
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
-    private val moviesRepository: MoviesRepository,
+class DetailViewModel(
+    private val movieId: Int,
+    private val repository: MoviesRepository,
 ) : ViewModel() {
+
     var state by mutableStateOf(UiState())
-    private set
+        private set
+
     init {
         viewModelScope.launch {
             state = UiState(loading = true)
-            val movieList = moviesRepository.fetchPopularMovies()
             state = UiState(
                 loading = false,
-                movies = movieList,
+                movie = repository.fetchMovieById(movieId)
             )
         }
     }
 
     data class UiState(
         val loading: Boolean = false,
-        val movies: List<Movie> = emptyList(),
+        val movie: Movie? = null,
     )
 }
