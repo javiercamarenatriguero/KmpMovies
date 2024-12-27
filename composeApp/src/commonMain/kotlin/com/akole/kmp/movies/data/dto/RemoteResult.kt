@@ -17,7 +17,7 @@ data class Result(
     val title: String,
     val overview: String,
     val popularity: Double,
-    @SerialName("backdrop_path") val backdropPath: String,
+    @SerialName("backdrop_path") val backdropPath: String?,
     @SerialName("genre_ids")val genreIds: List<Int>,
     @SerialName("original_language")val originalLanguage: String,
     @SerialName("original_title")val originalTitle: String,
