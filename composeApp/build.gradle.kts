@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.gradleBuildConfig)
 }
 
 kotlin {
@@ -90,5 +92,16 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+}
+
+buildConfig {
+    packageName = "com.akole.kmp.movies"
+
+    val properties = Properties()
+    // Read local.properties file
+    properties.load(project.rootProject.file("local.properties").reader())
+    // API_KEY
+    val apiKey = properties.getProperty("API_KEY")
+    buildConfigField("API_KEY", apiKey)
 }
 

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.akole.kmp.movies.BuildConfig
 import com.akole.kmp.movies.data.service.MoviesService
 import com.akole.kmp.movies.data.repository.MoviesRepositoryImpl
 import com.akole.kmp.movies.domain.repository.MoviesRepository
@@ -68,7 +69,7 @@ private enum class Screen(val route: String) {
 // Use Remember to create a single instance of the repository
 @Composable
 private fun rememberMoviesRepository(
-    apiKey: String = stringResource(Res.string.api_key)
+    apiKey: String = BuildConfig.API_KEY,
 ): MoviesRepository = remember {
     val client = HttpClient {
         install(ContentNegotiation) {
