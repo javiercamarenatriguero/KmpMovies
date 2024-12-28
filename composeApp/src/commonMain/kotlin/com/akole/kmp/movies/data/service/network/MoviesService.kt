@@ -1,7 +1,7 @@
-package com.akole.kmp.movies.data.service
+package com.akole.kmp.movies.data.service.network
 
-import com.akole.kmp.movies.data.dto.RemoteMovie
-import com.akole.kmp.movies.data.dto.RemoteResult
+import com.akole.kmp.movies.data.dto.network.RemoteMovie
+import com.akole.kmp.movies.data.dto.network.RemoteResult
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

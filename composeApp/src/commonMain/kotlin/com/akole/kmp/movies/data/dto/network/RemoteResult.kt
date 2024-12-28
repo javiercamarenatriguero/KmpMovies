@@ -1,4 +1,4 @@
-package com.akole.kmp.movies.data.dto
+package com.akole.kmp.movies.data.dto.network
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
