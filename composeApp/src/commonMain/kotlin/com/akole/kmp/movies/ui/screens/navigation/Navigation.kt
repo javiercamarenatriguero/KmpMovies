@@ -2,15 +2,15 @@ package com.akole.kmp.movies.ui.screens.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.akole.kmp.movies.BuildConfig
-import com.akole.kmp.movies.data.service.MoviesService
+import com.akole.kmp.movies.data.service.network.MoviesService
 import com.akole.kmp.movies.data.repository.MoviesRepositoryImpl
+import com.akole.kmp.movies.data.service.database.MoviesDao
 import com.akole.kmp.movies.domain.repository.MoviesRepository
 import com.akole.kmp.movies.ui.screens.detail.DetailScreen
 import com.akole.kmp.movies.ui.screens.detail.DetailViewModel
@@ -21,20 +21,16 @@ import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
-import kmpmovies.composeapp.generated.resources.Res
-import kmpmovies.composeapp.generated.resources.api_key
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun Navigation(modifier: Modifier = Modifier) {
+fun Navigation(moviesDao: MoviesDao) {
     val navController = rememberNavController()
-    val repository = rememberMoviesRepository()
+    val repository = rememberMoviesRepository(moviesDao)
 
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
-        modifier = modifier,
     ) {
         composable(Screen.Home.route) {
             HomeScreen(
@@ -69,6 +65,7 @@ private enum class Screen(val route: String) {
 // Use Remember to create a single instance of the repository
 @Composable
 private fun rememberMoviesRepository(
+    moviesDao: MoviesDao,
     apiKey: String = BuildConfig.API_KEY,
 ): MoviesRepository = remember {
     val client = HttpClient {
@@ -89,8 +86,9 @@ private fun rememberMoviesRepository(
         }
     }
     MoviesRepositoryImpl(
-        MoviesService(
+        moviesService = MoviesService(
             client = client,
-        )
+        ),
+        moviesDao = moviesDao,
     )
 }

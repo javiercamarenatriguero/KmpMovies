@@ -1,4 +1,4 @@
-package com.akole.kmp.movies.data.dto
+package com.akole.kmp.movies.data.dto.network
 
 import com.akole.kmp.movies.domain.model.Movie
 

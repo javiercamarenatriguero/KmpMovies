@@ -1,7 +1,6 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,6 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidxRoom)
     alias(libs.plugins.gradleBuildConfig)
 }
 
@@ -36,6 +37,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.room.runtime.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -53,12 +55,18 @@ kotlin {
             implementation(libs.ktor.serialization)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.room.runtime)
+            //implementation(libs.androidx.sqlite.bundle)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
     }
 
+    // Configure KSP for Room
+    sourceSets.commonMain {
+        kotlin.srcDirs("build/generated/ksp/metadata")
+    }
     // Prevent failures on `make`
     task("testClasses")
 }
@@ -94,9 +102,24 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+// Room configuration (not valid for KSP2)
+dependencies {
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+}
+
+tasks.withType<KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata" ) {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+// Directory for migrations
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 buildConfig {
     packageName = "com.akole.kmp.movies"
-
     val properties = Properties()
     // Read local.properties file
     properties.load(project.rootProject.file("local.properties").reader())
