@@ -22,6 +22,8 @@ ksp = "2.1.0-1.0.29"
 ktor = "3.0.2"
 # Navigation
 navigation-compose = "2.8.0-alpha02"
+#BuildConfig
+build-config = "5.3.5"
 # Room
 androidx-room = "2.7.0-alpha01"
 # Integrate Sqlite even the SO already contains it in Room
@@ -64,6 +66,8 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 # Serialization
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+# BuildConfig
+gradleBuildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "build-config" }
 # Ksp
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Room

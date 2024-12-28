@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidxRoom)
+    alias(libs.plugins.gradleBuildConfig)
 }
 
 kotlin {
@@ -115,3 +117,14 @@ tasks.withType<KotlinCompile<*>>().configureEach {
 room {
     schemaDirectory("$projectDir/schemas")
 }
+
+buildConfig {
+    packageName = "com.akole.kmp.movies"
+    val properties = Properties()
+    // Read local.properties file
+    properties.load(project.rootProject.file("local.properties").reader())
+    // API_KEY
+    val apiKey = properties.getProperty("API_KEY")
+    buildConfigField("API_KEY", apiKey)
+}
+

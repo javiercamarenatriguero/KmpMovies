@@ -2,12 +2,12 @@ package com.akole.kmp.movies.ui.screens.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.akole.kmp.movies.BuildConfig
 import com.akole.kmp.movies.data.service.network.MoviesService
 import com.akole.kmp.movies.data.repository.MoviesRepositoryImpl
 import com.akole.kmp.movies.data.service.database.MoviesDao
@@ -21,10 +21,7 @@ import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
-import kmpmovies.composeapp.generated.resources.Res
-import kmpmovies.composeapp.generated.resources.api_key
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun Navigation(moviesDao: MoviesDao) {
@@ -69,7 +66,7 @@ private enum class Screen(val route: String) {
 @Composable
 private fun rememberMoviesRepository(
     moviesDao: MoviesDao,
-    apiKey: String = stringResource(Res.string.api_key),
+    apiKey: String = BuildConfig.API_KEY,
 ): MoviesRepository = remember {
     val client = HttpClient {
         install(ContentNegotiation) {
