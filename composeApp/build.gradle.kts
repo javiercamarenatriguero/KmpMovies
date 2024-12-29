@@ -39,6 +39,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.room.runtime.android)
             implementation(libs.koin.android)
+            implementation(libs.play.services.location)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -61,6 +62,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.moko.permissions)
             //implementation(libs.androidx.sqlite.bundle)
 
         }

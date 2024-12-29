@@ -33,7 +33,9 @@ import coil3.compose.AsyncImage
 import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.theme.dimens.LocalAppDimens
 import com.akole.kmp.movies.ui.common.LoadingIndicator
+import com.akole.kmp.movies.ui.common.PermissionRequestEffect
 import com.akole.kmp.movies.ui.screens.Screen
+import dev.icerock.moko.permissions.Permission
 import kmpmovies.composeapp.generated.resources.Res
 import kmpmovies.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
@@ -46,6 +48,10 @@ fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
+
+    PermissionRequestEffect(Permission.COARSE_LOCATION) {
+        viewModel.onUiReady()
+    }
     Screen {
         // Following Material3 guidelines, change the color when scrolling
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()

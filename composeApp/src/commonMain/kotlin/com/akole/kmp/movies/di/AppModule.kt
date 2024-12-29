@@ -3,10 +3,12 @@ package com.akole.kmp.movies.di
 import androidx.room.RoomDatabase
 import com.akole.kmp.movies.BuildConfig
 import com.akole.kmp.movies.data.repository.MoviesRepositoryImpl
+import com.akole.kmp.movies.data.repository.RegionRepositoryImpl
 import com.akole.kmp.movies.data.service.database.MoviesDao
 import com.akole.kmp.movies.data.service.database.MoviesDatabase
 import com.akole.kmp.movies.data.service.network.MoviesService
 import com.akole.kmp.movies.domain.repository.MoviesRepository
+import com.akole.kmp.movies.domain.repository.RegionRepository
 import com.akole.kmp.movies.ui.screens.home.HomeViewModel
 import com.akole.kmp.movies.ui.screens.detail.DetailViewModel
 import io.ktor.client.HttpClient
@@ -52,10 +54,13 @@ val dataModule = module {
 
     single { MoviesService(client = get()) }
 
+    single<RegionRepository> { RegionRepositoryImpl( regionDataSource = get()) }
+
     single<MoviesRepository> {
         MoviesRepositoryImpl(
             moviesDao = get(),
             moviesService = get(),
+            regionDataSource = get(),
         )
     }
 }
