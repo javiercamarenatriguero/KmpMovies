@@ -34,4 +34,14 @@ class MoviesRepositoryImpl(
                 )
             }
         }.map { it?.toDomainModel() }
+
+    override suspend fun toggleFavorite(movie: Movie) {
+        moviesDao.save(
+            listOf(
+                movie
+                    .copy(isFavorite = !movie.isFavorite)
+                    .toDatabaseDto()
+            )
+        )
+    }
 }

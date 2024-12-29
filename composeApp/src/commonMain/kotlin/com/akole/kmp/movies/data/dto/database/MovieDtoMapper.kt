@@ -13,6 +13,7 @@ fun Movie.toDatabaseDto() = MovieEntity(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
+    isFavorite = isFavorite,
 )
 
 fun MovieEntity.toDomainModel() = Movie(
@@ -26,4 +27,5 @@ fun MovieEntity.toDomainModel() = Movie(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
+    isFavorite = isFavorite,
 )

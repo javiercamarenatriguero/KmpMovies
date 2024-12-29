@@ -12,15 +12,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -99,13 +104,23 @@ private fun MovieCard(
                     .aspectRatio(ASPECT_RADIO)
                     .clip(MaterialTheme.shapes.small),
             )
-            Text(
-                text = movie.title,
-                style = MaterialTheme.typography.bodySmall,
-                maxLines = 1,
-                modifier = Modifier.padding(LocalAppDimens.current.viewSpacing),
-            )
+            if (movie.isFavorite) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(LocalAppDimens.current.viewSpacing),
+                )
+            }
         }
+        Text(
+            text = movie.title,
+            style = MaterialTheme.typography.bodySmall,
+            maxLines = 1,
+            modifier = Modifier.padding(LocalAppDimens.current.viewSpacing),
+        )
     }
 }
 
