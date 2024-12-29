@@ -2,11 +2,15 @@ package com.akole.kmp.movies.di
 
 import androidx.room.RoomDatabase
 import com.akole.kmp.movies.BuildConfig
+import com.akole.kmp.movies.data.datasource.MoviesLocalDataSourceImpl
+import com.akole.kmp.movies.data.datasource.MoviesRemoteDataSourceImpl
 import com.akole.kmp.movies.data.repository.MoviesRepositoryImpl
 import com.akole.kmp.movies.data.repository.RegionRepositoryImpl
 import com.akole.kmp.movies.data.service.database.MoviesDao
 import com.akole.kmp.movies.data.service.database.MoviesDatabase
 import com.akole.kmp.movies.data.service.network.MoviesService
+import com.akole.kmp.movies.domain.datasource.MoviesLocalDataSource
+import com.akole.kmp.movies.domain.datasource.MoviesRemoteDataSource
 import com.akole.kmp.movies.domain.repository.MoviesRepository
 import com.akole.kmp.movies.domain.repository.RegionRepository
 import com.akole.kmp.movies.ui.screens.home.HomeViewModel
@@ -20,6 +24,7 @@ import kotlinx.serialization.json.Json
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -54,12 +59,15 @@ val dataModule = module {
 
     single { MoviesService(client = get()) }
 
+    factory<MoviesRemoteDataSource> { MoviesRemoteDataSourceImpl(get()) }
+    factory<MoviesLocalDataSource> { MoviesLocalDataSourceImpl(get()) }
+
     single<RegionRepository> { RegionRepositoryImpl( regionDataSource = get()) }
 
     single<MoviesRepository> {
         MoviesRepositoryImpl(
-            moviesDao = get(),
-            moviesService = get(),
+            remoteDataSource = get(),
+            localDataSource = get(),
             regionDataSource = get(),
         )
     }

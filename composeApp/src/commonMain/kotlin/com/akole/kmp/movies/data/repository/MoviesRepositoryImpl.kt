@@ -1,50 +1,40 @@
 package com.akole.kmp.movies.data.repository
 
-import com.akole.kmp.movies.data.dto.database.toDatabaseDto
-import com.akole.kmp.movies.data.dto.database.toDomainModel
-import com.akole.kmp.movies.data.dto.network.toDomainModel
-import com.akole.kmp.movies.data.service.database.MoviesDao
-import com.akole.kmp.movies.data.service.network.MoviesService
+import com.akole.kmp.movies.domain.datasource.MoviesLocalDataSource
+import com.akole.kmp.movies.domain.datasource.MoviesRemoteDataSource
 import com.akole.kmp.movies.domain.datasource.RegionDataSource
 import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 class MoviesRepositoryImpl(
-    private val moviesService: MoviesService,
-    private val moviesDao: MoviesDao,
+    private val remoteDataSource: MoviesRemoteDataSource,
+    private val localDataSource: MoviesLocalDataSource,
     private val regionDataSource: RegionDataSource,
-): MoviesRepository {
+) : MoviesRepository {
 
-    override suspend fun fetchPopularMovies(): Flow<List<Movie>> = moviesDao.fetchPopularMovies().onEach { movies ->
-        if (movies.isEmpty()) {
-            val domainMovies = moviesService.fetchPopularMovies(
-                regionDataSource.fetchRegion()
-            ).results.map { it.toDomainModel() }
-            moviesDao.save(
-                domainMovies.map { it.toDatabaseDto() }
-            )
+    override suspend fun fetchPopularMovies(): Flow<List<Movie>> =
+        localDataSource.fetchPopularMovies().onEach { movies ->
+            if (movies.isEmpty()) {
+                val region = regionDataSource.fetchRegion()
+                val remoteMovies = remoteDataSource.fetchPopularMovies(region)
+                localDataSource.saveMovies(remoteMovies)
+            }
         }
-    }.map { it.map { movieDto -> movieDto.toDomainModel() } }
 
     override suspend fun fetchMovieById(id: Int): Flow<Movie?> =
-        moviesDao.fetchMovieById(id).onEach { movie ->
+        localDataSource.fetchMovieById(id).onEach { movie ->
             if (movie == null) {
-                val domainMovie = moviesService.fetchMovieById(id).toDomainModel()
-                moviesDao.save(
-                    listOf(domainMovie.toDatabaseDto())
-                )
+                val remoteMovie = remoteDataSource.fetchMovieById(id)
+                localDataSource.saveMovies(listOf(remoteMovie))
             }
-        }.map { it?.toDomainModel() }
+        }
 
     override suspend fun toggleFavorite(movie: Movie) {
-        moviesDao.save(
+        localDataSource.saveMovies(
             listOf(
-                movie
-                    .copy(isFavorite = !movie.isFavorite)
-                    .toDatabaseDto()
+                movie.copy(isFavorite = !movie.isFavorite)
             )
         )
     }
