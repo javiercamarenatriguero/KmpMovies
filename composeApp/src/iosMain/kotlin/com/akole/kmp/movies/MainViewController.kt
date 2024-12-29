@@ -1,9 +1,10 @@
 package com.akole.kmp.movies
 
 import androidx.compose.ui.window.ComposeUIViewController
-import com.akole.kmp.movies.data.database.getDatabaseBuilder
+import com.akole.kmp.movies.di.initKoin
 
-fun MainViewController() = ComposeUIViewController {
-    val db = getDatabaseBuilder().build()
-    MoviesApp(db.moviesDao())
+fun MainViewController() = ComposeUIViewController(
+    configure = { initKoin() }
+) {
+    MoviesApp()
 }
