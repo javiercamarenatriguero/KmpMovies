@@ -1,25 +1,27 @@
 package com.akole.kmp.movies.ui.screens.home
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.domain.repository.MoviesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val moviesRepository: MoviesRepository,
 ) : ViewModel() {
-    var state by mutableStateOf(UiState())
-        private set
+
+    // Use StateFlow as it is recommended for iOS platform
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
     fun onUiReady() {
         viewModelScope.launch {
-            state = UiState(loading = true)
+            _state.value = UiState(loading = true)
             moviesRepository.fetchPopularMovies().collect { movieList ->
-                state = if (movieList.isNotEmpty()) {
+                _state.value = if (movieList.isNotEmpty()) {
                     UiState(
                         loading = false,
                         movies = movieList,
