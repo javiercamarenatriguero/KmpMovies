@@ -24,13 +24,18 @@ ktor = "3.0.2"
 navigation-compose = "2.8.0-alpha02"
 #BuildConfig
 build-config = "5.3.5"
-# Room
+# Room Persistence
 androidx-room = "2.7.0-alpha01"
 # Integrate Sqlite even the SO already contains it in Room
 androidx-sqlite-bundled = "2.5.0-alpha12"
-# Koin
+# Koin DI
 koin = "3.6.0-Beta4"
 koin-compose = "1.2.0-Beta4"
+# Moko permissions
+moko-permissions = "0.18.0"
+
+#Play Services Location
+play-services-location = "21.3.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -67,6 +72,9 @@ koin-android = { group = "io.insert-koin", name = "koin-android" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-compose" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin-compose" }
+# Moko Permissions
+moko-permissions = { group = "dev.icerock.moko", name = "permissions-compose", version.ref = "moko-permissions" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "play-services-location" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

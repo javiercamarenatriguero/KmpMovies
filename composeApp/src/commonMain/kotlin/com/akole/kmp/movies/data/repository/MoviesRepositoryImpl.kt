@@ -5,6 +5,7 @@ import com.akole.kmp.movies.data.dto.database.toDomainModel
 import com.akole.kmp.movies.data.dto.network.toDomainModel
 import com.akole.kmp.movies.data.service.database.MoviesDao
 import com.akole.kmp.movies.data.service.network.MoviesService
+import com.akole.kmp.movies.domain.datasource.RegionDataSource
 import com.akole.kmp.movies.domain.model.Movie
 import com.akole.kmp.movies.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
@@ -14,11 +15,14 @@ import kotlinx.coroutines.flow.onEach
 class MoviesRepositoryImpl(
     private val moviesService: MoviesService,
     private val moviesDao: MoviesDao,
+    private val regionDataSource: RegionDataSource,
 ): MoviesRepository {
 
     override suspend fun fetchPopularMovies(): Flow<List<Movie>> = moviesDao.fetchPopularMovies().onEach { movies ->
         if (movies.isEmpty()) {
-            val domainMovies = moviesService.fetchPopularMovies().results.map { it.toDomainModel() }
+            val domainMovies = moviesService.fetchPopularMovies(
+                regionDataSource.fetchRegion()
+            ).results.map { it.toDomainModel() }
             moviesDao.save(
                 domainMovies.map { it.toDatabaseDto() }
             )

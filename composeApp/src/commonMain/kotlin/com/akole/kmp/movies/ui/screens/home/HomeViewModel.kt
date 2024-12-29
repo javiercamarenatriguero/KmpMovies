@@ -13,8 +13,9 @@ class HomeViewModel(
     private val moviesRepository: MoviesRepository,
 ) : ViewModel() {
     var state by mutableStateOf(UiState())
-    private set
-    init {
+        private set
+
+    fun onUiReady() {
         viewModelScope.launch {
             state = UiState(loading = true)
             moviesRepository.fetchPopularMovies().collect { movieList ->
