@@ -13,6 +13,7 @@ fun Result.toDomainModel() = Movie(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
+    isFavorite = false,
 )
 
 fun RemoteMovie.toDomainModel() = Movie(
@@ -26,4 +27,5 @@ fun RemoteMovie.toDomainModel() = Movie(
     originalLanguage = originalLanguage,
     popularity = popularity,
     voteAverage = voteAverage,
+    isFavorite = false,
 )

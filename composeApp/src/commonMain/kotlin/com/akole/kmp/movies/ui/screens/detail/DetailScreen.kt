@@ -9,7 +9,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +51,19 @@ fun DetailScreen(
         Scaffold(
             topBar = {
                 DetailTopBar(state.movie?.title, onBack, scrollBehavior)
+            },
+            floatingActionButton = {
+                state.movie?.let { movie ->
+                    FloatingActionButton(
+                        onClick = viewModel::onFavoriteClick,
+                        modifier = Modifier.padding(LocalAppDimens.current.viewSpacing),
+                    ) {
+                        Icon(
+                            imageVector = if(movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = null
+                        )
+                    }
+                }
             }
         )
         { padding ->

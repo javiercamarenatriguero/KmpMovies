@@ -13,7 +13,6 @@ class DetailViewModel(
     private val movieId: Int,
     private val repository: MoviesRepository,
 ) : ViewModel() {
-
     var state by mutableStateOf(UiState())
         private set
 
@@ -29,6 +28,14 @@ class DetailViewModel(
                     loading = false,
                     movie = movie,
                 )
+            }
+        }
+    }
+
+    fun onFavoriteClick() {
+        state.movie?.let { movie ->
+            viewModelScope.launch {
+                repository.toggleFavorite(movie)
             }
         }
     }
