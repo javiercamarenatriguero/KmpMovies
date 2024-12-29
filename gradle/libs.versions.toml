@@ -28,6 +28,9 @@ build-config = "5.3.5"
 androidx-room = "2.7.0-alpha01"
 # Integrate Sqlite even the SO already contains it in Room
 androidx-sqlite-bundled = "2.5.0-alpha12"
+# Koin
+koin = "3.6.0-Beta4"
+koin-compose = "1.2.0-Beta4"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -58,6 +61,13 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-runtime-android = { group = "androidx.room", name = "room-runtime-android", version.ref = "androidx-room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room"}
 androidx-sqlite-bundle = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "androidx-sqlite-bundled" }
+# Koin
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-compose" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin-compose" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
